@@ -12,11 +12,8 @@ _: {
         vimAlias = true;
         vimdiffAlias = true;
 
-        withPython3 = false;
-
         extraPackages = with pkgs; [
           nixd
-          nixfmt
 
           lua-language-server
           stylua
@@ -72,7 +69,7 @@ _: {
         ];
       };
 
-      xdg.configFile."nvim/init.lua".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nix/config/nvim/init.lua";
+      xdg.configFile."nvim".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nix/config/nvim";
     };
 }

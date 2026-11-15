@@ -1,5 +1,5 @@
 # aspects/zsh.nix
-# Aspect: Multi-class Zsh shell (system registration, login shell & HM fzf-tab/Atuin/Zoxide/Starship)
+# Aspect: Multi-class Zsh shell (system registration, login shell & HM fzf-tab/Zoxide/Starship)
 _: {
   den.aspects.zsh = {
     nixos = {
@@ -26,12 +26,6 @@ _: {
             enable = true;
             dotDir = "${config.xdg.configHome}/zsh";
             defaultKeymap = "emacs";
-
-            shellAliases = {
-              hotspot-on = "nmcli device wifi hotspot";
-              hotspot-off = "nmcli connection down Hotspot";
-              hotspot-qr = "nmcli device wifi show-password";
-            };
 
             autosuggestion = {
               enable = true;
@@ -83,28 +77,12 @@ _: {
 
           fzf = {
             enable = true;
-            historyWidget.command = "";
             defaultOptions = [
               "--height=40%"
               "--layout=reverse"
               "--border=rounded"
               "--info=inline"
             ];
-          };
-
-          atuin = {
-            enable = true;
-            flags = [ "--disable-up-arrow" ];
-            settings = {
-              auto_sync = false;
-              update_check = false;
-              search_mode = "fuzzy";
-              filter_mode = "global";
-              filter_mode_shell_up_key_binding = "directory";
-              style = "compact";
-              inline_height = 20;
-              enter_accept = true;
-            };
           };
 
           zoxide.enable = true;

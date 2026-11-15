@@ -22,6 +22,11 @@ _: {
           "vm.swappiness" = 100;
           "vm.page-cluster" = 0;
         };
+        extraModprobeConfig = ''
+          options rtw88_pci disable_aspm=1
+          options rtw88_core disable_lps_deep=1
+          options btusb enable_autosuspend=0
+        '';
       };
 
       networking = {
@@ -32,15 +37,23 @@ _: {
             scanRandMacAddress = false;
           };
         };
-        firewall.extraInputRules = ''
-          iifname { "wl*", "ap*" } udp dport { 53, 67 } accept
-          iifname { "wl*", "ap*" } tcp dport 53 accept
-        '';
       };
 
       hardware.bluetooth = {
         enable = true;
         powerOnBoot = true;
+        settings = {
+          General = {
+            FastConnectable = true;
+            JustWorksRepairing = "always";
+          };
+        };
+        input = {
+          General = {
+            UserspaceHID = true;
+            IdleTimeout = 0;
+          };
+        };
       };
 
       systemd = {

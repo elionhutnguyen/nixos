@@ -1,10 +1,9 @@
 # aspects/vcs.nix
-# Aspect: Colocated Git + Jujutsu VCS suite with Delta, Difftastic, and GH
+# Aspect: Git VCS suite with Delta and GH
 _: {
   den.aspects.vcs.homeManager =
-    { config, lib, ... }:
+    { config, ... }:
     let
-      difftExe = lib.getExe config.programs.difftastic.package;
       sshSigningKey = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
     in
     {
@@ -24,7 +23,6 @@ _: {
         delta = {
           enable = true;
           enableGitIntegration = true;
-          enableJujutsuIntegration = true;
           options = {
             navigate = true;
             side-by-side = true;
@@ -38,14 +36,6 @@ _: {
           };
         };
 
-        difftastic = {
-          enable = true;
-          options = {
-            color = "always";
-            display = "side-by-side-show-both";
-          };
-        };
-
         git = {
           enable = true;
 
@@ -56,8 +46,6 @@ _: {
           };
 
           ignores = [
-            ".direnv/"
-            ".envrc.local"
             "result"
             "result-*"
             "*.swp"
@@ -113,59 +101,9 @@ _: {
             help.autocorrect = "prompt";
 
             alias = {
-              dft = "-c diff.external=${difftExe} diff";
-              dshow = "-c diff.external=${difftExe} show --ext-diff";
-              dlog = "-c diff.external=${difftExe} log -p --ext-diff";
-
               st = "status -sb";
               lg = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
               unstage = "restore --staged";
-            };
-          };
-        };
-
-        jujutsu = {
-          enable = true;
-          settings = {
-            ui = {
-              default-command = "log";
-              editor = "nvim";
-            };
-
-            git = {
-              auto-local-bookmark = false;
-              write-change-id-header = true;
-            };
-
-            signing = {
-              behavior = "own";
-              backend = "ssh";
-              key = sshSigningKey;
-            };
-
-            merge-tools.difft = {
-              program = difftExe;
-              diff-args = [
-                "--color=always"
-                "$left"
-                "$right"
-              ];
-            };
-
-            aliases = {
-              dft = [
-                "diff"
-                "--tool"
-                "difft"
-              ];
-              tug = [
-                "bookmark"
-                "move"
-                "--from"
-                "heads(::@- & bookmarks())"
-                "--to"
-                "@-"
-              ];
             };
           };
         };

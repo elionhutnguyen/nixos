@@ -17,6 +17,7 @@ _: {
 
         environment = {
           systemPackages = with pkgs; [
+            xwayland-satellite
             wl-clipboard
             wl-mirror
             wlr-randr
@@ -55,31 +56,13 @@ _: {
           TTYVHangup = true;
           TTYVTDisallocate = true;
         };
-
-        xdg.portal = {
-          extraPortals = with pkgs; [
-            xdg-desktop-portal-gnome
-            xdg-desktop-portal-gtk
-          ];
-          config.niri = {
-            default = [
-              "gnome"
-              "gtk"
-            ];
-            "org.freedesktop.impl.portal.Access" = [ "gtk" ];
-            "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
-            "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
-            "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-            "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
-          };
-        };
       };
 
     homeManager =
       { config, ... }:
       {
-        xdg.configFile."niri/config.kdl".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nix/config/niri/config.kdl";
+        xdg.configFile."niri".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nix/config/niri";
 
         programs = {
           ghostty = {

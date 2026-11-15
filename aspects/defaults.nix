@@ -10,10 +10,6 @@
         useGlobalPkgs = true;
         useUserPackages = true;
       };
-      environment.pathsToLink = [
-        "/share/xdg-desktop-portal"
-        "/share/applications"
-      ];
     };
     homeManager.home.stateVersion = "26.05";
     includes = [

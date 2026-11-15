@@ -42,7 +42,7 @@ in
           noctalia.settings = {
             shell.font_family = "Noto Sans";
             theme = {
-              mode = "auto";
+              mode = "dark";
               source = "builtin";
               builtin = "Catppuccin";
               sync_color_scheme = true;
@@ -55,7 +55,6 @@ in
             font-family = monoFont;
             font-size = fontSize;
             theme = "light:Catppuccin Latte,dark:Catppuccin Mocha";
-            minimum-contrast = 3.5;
           };
 
           delta.options.syntax-theme = "ansi";

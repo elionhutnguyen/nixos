@@ -246,11 +246,7 @@ for server, s_cfg in pairs(servers) do
       capabilities = capabilities,
       settings = s_cfg.settings or {},
     }
-    if vim.lsp.config then
-      vim.lsp.config(server, server_opts)
-      vim.lsp.enable(server)
-    else
-      require("lspconfig")[server].setup(server_opts)
-    end
+    vim.lsp.config(server, server_opts)
+    vim.lsp.enable(server)
   end
 end

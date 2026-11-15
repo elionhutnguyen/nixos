@@ -11,7 +11,6 @@ in
   den.aspects.elio = {
     homeManager.programs = {
       git.settings = { inherit user; };
-      jujutsu.settings = { inherit user; };
     };
 
     includes = with den.aspects; [

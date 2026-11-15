@@ -9,7 +9,6 @@ _: {
         (pkgs.brave-origin.override {
           commandLineArgs = "--disable-accelerated-video-encode";
         })
-        pkgs.linux-wifi-hotspot
         pkgs.materialgram
       ];
 

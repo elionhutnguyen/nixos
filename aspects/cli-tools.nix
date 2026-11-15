@@ -8,10 +8,6 @@ _: {
         ripgrep.enable = true;
         fd.enable = true;
         btop.enable = true;
-        direnv = {
-          enable = true;
-          nix-direnv.enable = true;
-        };
         yazi = {
           enable = true;
           shellWrapperName = "y";
