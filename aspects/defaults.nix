@@ -20,5 +20,5 @@
     ];
   };
 
-  den.schema.host.includes = [ den.batteries.user-aspects ];
+  den.schema.user.includes = [ den.batteries.user-aspects ];
 }

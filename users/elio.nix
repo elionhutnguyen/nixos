@@ -14,7 +14,6 @@ in
     };
 
     includes = with den.aspects; [
-      zsh
       neovim
       vcs
       cli-tools
@@ -22,7 +21,6 @@ in
       antigravity
       firefox
       gui-apps
-      gaming
     ];
   };
 }

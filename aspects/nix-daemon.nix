@@ -21,7 +21,7 @@ _: {
 
         nh = {
           enable = true;
-          flake = "/home/elio/workspace/nix";
+          flake = "/home/elio/workspace/nixos";
           clean = {
             enable = true;
             dates = "weekly";

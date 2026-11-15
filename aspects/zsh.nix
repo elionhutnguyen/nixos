@@ -54,7 +54,7 @@ _: {
             ];
 
             initContent = lib.mkMerge [
-              (lib.mkOrder 850 ''
+              (lib.mkOrder 600 ''
                 source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
 
                 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'

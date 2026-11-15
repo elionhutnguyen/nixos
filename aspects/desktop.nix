@@ -62,7 +62,7 @@ _: {
       { config, ... }:
       {
         xdg.configFile."niri".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nix/config/niri";
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos/config/niri";
 
         programs = {
           ghostty = {

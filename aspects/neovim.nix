@@ -70,6 +70,6 @@ _: {
       };
 
       xdg.configFile."nvim".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nix/config/nvim";
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos/config/nvim";
     };
 }

@@ -35,6 +35,8 @@
         xdg
         theming
         desktop
+        zsh
+        gaming
       ];
     };
   };
