@@ -9,7 +9,7 @@ input {
         xkb {
             layout "us"
         }
-        repeat-delay 200
+        repeat-delay 250
         repeat-rate 40
         numlock
     }

@@ -1,0 +1,20 @@
+# Nix build outputs
+result
+result-*
+
+# Direnv & local environments
+.direnv/
+.env
+.env.*
+
+# Secrets & keys
+*.key
+*.pem
+
+# Editor / OS / Backup / Logs
+*.swp
+*.swo
+*~
+*.backup
+.DS_Store
+*.log
