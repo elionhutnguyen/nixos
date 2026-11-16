@@ -40,6 +40,7 @@ _: {
               gitcommit
               gitignore
               json
+              kdl
               lua
               luadoc
               markdown
@@ -48,6 +49,7 @@ _: {
               python
               query
               regex
+              sql
               toml
               vim
               vimdoc

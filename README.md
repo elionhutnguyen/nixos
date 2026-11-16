@@ -55,7 +55,7 @@ nixos/
     ├── cli-tools.nix                 # ripgrep, fd, btop, yazi (media previews), trash-cli, nixfmt/statix/deadnix
     ├── neovim.nix                    # Neovim + Treesitter grammars + Nix/Lua/Bash/Markdown/TOML/YAML/JSON LSPs
     ├── vcs.nix                       # Git (SSH commit signing, delta diffs, zdiff3), SSH agent & GitHub CLI (gh)
-    ├── python.nix                    # uv, ruff, basedpyright, sqlite, duckdb + Python 3 data/CV packages
+    ├── python.nix                    # Python 3, uv, ruff, basedpyright, sqlite, duckdb & nix-ld library path
     ├── antigravity.nix               # Google Antigravity CLI (`agy`) with MCP, sandbox & tool permissions
     ├── firefox.nix                   # Hardened Firefox (Brave search, DoH, HTTPS-Only, strict tracking protection)
     ├── gui-apps.nix                  # Anki, Brave Origin, Materialgram, OnlyOffice & VS Code
@@ -76,7 +76,7 @@ Always test-compile before switching your live desktop:
 cd ~/workspace/nixos
 
 # 2. Optional: check formatting & unused Nix code before building
-nixfmt --check .
+fd -e nix -X nixfmt --check
 statix check .
 deadnix .
 

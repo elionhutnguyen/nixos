@@ -34,31 +34,36 @@ _: {
             "command(deadnix)"
             "command(shellcheck)"
             "command(shfmt)"
+            "command(stylua)"
             "command(trash-put)"
             "command(python3)"
             "command(pytest)"
             "command(ruff)"
             "command(basedpyright)"
             "command(uv)"
+            "command(sqlite3)"
+            "command(duckdb)"
           ];
 
           deny = [
-            "**/.env"
-            "**/.env.*"
-            "**/.ssh/**"
-            "**/data/**"
-            "**/datasets/**"
-            "write_file(**/.git/**)"
-            "command(rm -rf*)"
-            "command(sudo*)"
+            "read_file(.env)"
+            "read_file(.env.local)"
+            "read_file(.env.production)"
+            "read_file(${config.home.homeDirectory}/.ssh)"
+            "read_file(data/)"
+            "read_file(/home/data)"
+            "read_file(datasets/)"
+            "write_file(.git/)"
+            "command(rm -rf)"
+            "command(sudo)"
           ];
 
           ask = [
-            "command(git push*)"
-            "command(git reset --hard*)"
-            "command(git clean*)"
-            "command(nh os switch*)"
-            "command(nixos-rebuild switch*)"
+            "command(git push)"
+            "command(git reset --hard)"
+            "command(git clean)"
+            "command(nh os switch)"
+            "command(nixos-rebuild switch)"
           ];
         };
 
