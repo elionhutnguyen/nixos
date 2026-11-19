@@ -1,5 +1,5 @@
 # aspects/system.nix
-# Aspect: Core kernel, bootloader, zram, sysctl, oomd, journald, NetworkManager, Bluetooth & Ananicy
+# Aspect: Core kernel, bootloader, zram, sysctl, earlyoom, journald, NetworkManager, Bluetooth & Ananicy
 _: {
   den.aspects.system.nixos =
     { pkgs, ... }:
@@ -67,10 +67,7 @@ _: {
 
       systemd = {
         coredump.enable = false;
-        oomd = {
-          enable = true;
-          enableUserSlices = false;
-        };
+        oomd.enable = false;
       };
 
       zramSwap = {
@@ -101,6 +98,11 @@ _: {
           enable = true;
           package = pkgs.ananicy-cpp;
           rulesProvider = pkgs.ananicy-rules-cachyos;
+        };
+        earlyoom = {
+          enable = true;
+          freeMemThreshold = 5;
+          freeSwapThreshold = 10;
         };
       };
     };

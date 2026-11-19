@@ -90,8 +90,9 @@
                     return 1
                   fi
 
-                  local stat diff msg
+                  local stat diff msg model
                   local -h prompt
+                  model="''${GCM_MODEL:-gemini-4-hydrogen-low}"
                   stat=$(git diff --staged --stat)
                   diff=$(git diff --staged -- ':!flake.lock' ':!uv.lock' ':!package-lock.json' | head -c 16000)
 
@@ -110,13 +111,15 @@
                 Staged diff (lockfiles excluded, truncated to 16KB):
                 $diff"
 
-                  print -u2 "Generating commit message with agy..."
-                  msg=$(agy \
-                    --effort medium \
-                    --disable-slash-commands \
-                    --output-format text \
-                    --print-timeout 45s \
-                    -p="$prompt") || return 1
+                  print -u2 "Generating commit message with agy ($model)..."
+                  msg=$(
+                    cd /var/empty && agy \
+                      --model "$model" \
+                      --disable-slash-commands \
+                      --output-format text \
+                      --print-timeout 45s \
+                      -p="$prompt"
+                  ) || return 1
                   if [[ -z "$msg" ]]; then
                     print -u2 "gcm: agy returned an empty commit message; aborting"
                     return 1

@@ -44,7 +44,7 @@ nixos/
 │   └── nvim/init.lua                 # Neovim plugins, LSPs, Telescope & formatters -> ~/.config/nvim
 └── aspects/                          # 21 modular building blocks (auto-discovered by import-tree)
     ├── defaults.nix                  # Baseline stateVersion ("26.05"), Home Manager integration & Den batteries
-    ├── system.nix                    # Kernel, systemd-boot (10 gens), zram (50% zstd), tmpfs /tmp, NetworkManager, hotspot firewall, Bluetooth, DNS (1.1.1.1/9.9.9.9), oomd, fstrim, fwupd, journald caps & ananicy-cpp
+    ├── system.nix                    # Kernel, systemd-boot (10 gens), zram (50% zstd), tmpfs /tmp, NetworkManager, hotspot firewall, Bluetooth, DNS (1.1.1.1/9.9.9.9), earlyoom, fstrim, fwupd, journald caps & ananicy-cpp
     ├── nix-daemon.nix                # Unfree packages, flakes, nixpkgs registry, nix-ld, nh helper, weekly GC & store optimization
     ├── nvidia-prime.nix              # NVIDIA open driver, PRIME offload, VA-API & cardwired eBPF GPU switcher
     ├── power-management.nix          # Power profiles, UPower, 80% battery charge limit & Bluetooth USB autosuspend fix
@@ -58,7 +58,7 @@ nixos/
     ├── cli-tools.nix                 # ripgrep, fd, btop, yazi (media previews), trash-cli, nix-search-tv, nixfmt/statix/deadnix & GPU/HW diagnostics (`nvtop`, `pciutils`, `usbutils`)
     ├── neovim.nix                    # Neovim (`vi`/`vim`/`vimdiff` aliases), 21 Treesitter grammars & Nix/Lua/Bash/Markdown/TOML/YAML/JSON LSPs
     ├── vcs.nix                       # Git (SSH commit signing, delta diffs, zdiff3), SSH agent & GitHub CLI (`gh`)
-    ├── python.nix                    # Python 3, uv, ruff, basedpyright, sqlite, duckdb, visidata & nix-ld `LD_LIBRARY_PATH`
+    ├── python.nix                    # Python 3, uv, ruff, basedpyright, sqlite, duckdb, visidata & `UV_PYTHON_PREFERENCE=only-managed`
     ├── research.nix                  # Zathura PDF reader, JabRef reference manager & Typst typesetting
     ├── antigravity.nix               # Google Antigravity CLI (`agy`) with live `GEMINI.md` + `skills/`, MCP, sandbox & tool permissions
     ├── firefox.nix                   # Hardened Firefox (Brave default search, DoH, HTTPS-Only, strict tracking protection, AI/telemetry disabled)
@@ -204,7 +204,7 @@ Configured in `aspects/zsh.nix`, `aspects/cli-tools.nix`, `aspects/neovim.nix`, 
 - **XDG Home Cleanup (`aspects/xdg.nix`):** Only `Documents`, `Downloads`, and `Pictures` live directly in `~`; `Desktop`, `Music`, `Videos`, `Templates`, and `Public` are routed to `~/.local/share/xdg-unused`, and dev tool caches/configs (`cargo`, `rustup`, `go`, `npm`, `node`, `gnupg`, `docker`, `dotnet`, NVIDIA/CUDA shader caches) are steered into `~/.config`, `~/.local/share`, `~/.local/state`, and `~/.cache`.
 
 ### Python, Data & Academic Research Workflows (`uv`, `visidata`, `research.nix`)
-- **`nix-ld` + `uv` (Python projects):** `aspects/nix-daemon.nix` enables **`nix-ld`** (and `aspects/python.nix` exports `LD_LIBRARY_PATH`), allowing precompiled Python wheels downloaded by `uv` (like `numpy`, `scipy`, `pandas`, `opencv-python-headless`) to run seamlessly on NixOS. Inside project repos like `~/workspace/career`, use **`uv`** instead of modifying global NixOS packages:
+- **`nix-ld` + `uv` (Python projects):** `aspects/nix-daemon.nix` enables **`nix-ld`**, and `aspects/python.nix` sets `UV_PYTHON_PREFERENCE=only-managed` so `uv`'s managed Python resolves shared libraries via `nix-ld` without polluting global `LD_LIBRARY_PATH`—allowing precompiled Python wheels (like `numpy`, `scipy`, `pandas`, `opencv-python-headless`) to run seamlessly on NixOS. Inside project repos like `~/workspace/career`, use **`uv`** instead of modifying global NixOS packages:
   ```bash
   cd ~/workspace/career
   uv sync              # Creates/updates isolated .venv from pyproject.toml & uv.lock

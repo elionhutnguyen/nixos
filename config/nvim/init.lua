@@ -65,7 +65,14 @@ map("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to upper window" })
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
   callback = function()
-    vim.highlight.on_yank()
+    vim.hl.on_yank()
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("treesitter-start", { clear = true }),
+  callback = function(args)
+    pcall(vim.treesitter.start, args.buf)
   end,
 })
 

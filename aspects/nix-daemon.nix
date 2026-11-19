@@ -44,13 +44,7 @@
             "flakes"
           ];
           use-xdg-base-directories = true;
-          auto-optimise-store = true;
-          keep-outputs = true;
-          keep-derivations = true;
-          trusted-users = [
-            "root"
-            "@wheel"
-          ];
+          trusted-users = [ "root" ];
         };
 
         optimise = {
