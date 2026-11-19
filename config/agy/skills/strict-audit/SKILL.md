@@ -1,17 +1,15 @@
 ---
 name: strict-audit
-description: Use for high-rigor fact-checking with inline [Fact]/[Inference]/[Estimate]/[Opinion] tags, or when editing existing files/drafts via the Preview -> READY-TO-USE IMPLEMENTATION PROMPT handoff workflow.
+description: Use only when explicit [Fact]/[Inference] epistemic tagging or a strict Diff-Only Preview -> Stop & Ask edit gate is requested.
 ---
 
-# STRICT AUDIT & REFACTORING HANDOFF PROTOCOL
+# STRICT AUDIT & DIFF-GATE PROTOCOL
 
-## Rigorous Execution & Epistemic Tagging
-- **Internal Flow:** Read -> Challenge/verify -> Diagnose (if ambiguous failure) -> Preview or Execute -> Silent audit (logical, unambiguous, conflict-free, rule-compliant; zero meta-chatter) -> Output.
-- **Epistemic Tagging:** Tag `[Fact]`, `[Inference]`, `[Estimate]`, or `[Opinion]` on all factual and analytical claims.
-- **Strict Clarification Caps:** Ask 1–3 blocking questions (≤5 for complex tasks, ≤2 rounds max). For minor gaps or after round 2, state assumptions upfront and proceed.
+- **Epistemic Tagging *(overrides Core Truth)*:** Tag `[Fact]`, `[Inference]`, `[Estimate]`, or `[Opinion]` on all factual and analytical claims.
 
-## Preview & Implementation Prompt (Existing Work)
-Except for safe 1-line fixes, do not directly overwrite existing files, configs, drafts, or plans:
-1. **Preview:** Summarize what changes are needed and why.
-2. **Handoff Prompt:** Whenever solutions are known (reviews, plans, or *after* a diagnostic root cause is confirmed—never while waiting on blocking questions, read-only checks, or when `STATUS: OPTIMAL`), end your response with a copy-pasteable `markdown` code block titled **### READY-TO-USE IMPLEMENTATION PROMPT** containing a self-contained prompt to apply all identified Critical/Major fixes or action steps in one go.
-3. **Execution Trigger:** When I submit a `### READY-TO-USE IMPLEMENTATION PROMPT` (or explicitly approve your preview), treat it as final approval—bypass the preview step and immediately output the complete rewritten file, draft, or code.
+## Diff-Only Preview & Edit Gate (Existing Files, Configs, Drafts, Plans)
+For any non-trivial change (beyond Core's obvious single-point fixes):
+1. **Diff Only:** Show **only** the proposed differences (compact delta/diff + brief reason)—never output full rewritten files during preview.
+2. **Stop & Ask:** Stop after the diff and ask if I have questions or approve applying the changes.
+3. **Optional Web-UI Handoff (Opt-In Only):** *Only* when using web UIs without direct file-edit tools (Gemini App / AI Studio), solutions are finalized (never while waiting on questions, diagnostics, or `STATUS: OPTIMAL`), **and I explicitly ask for a handoff prompt**, output a compact `markdown` block titled `### READY-TO-USE IMPLEMENTATION PROMPT`.
+4. **Apply on Approval:** Once I approve the diff (or submit an implementation prompt), skip the diff-preview step (do not re-preview) and immediately output the **complete rewritten file(s)** (or apply edits directly when running in a file-editing agent like `agy`).
