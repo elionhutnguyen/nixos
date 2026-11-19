@@ -11,6 +11,7 @@ _: {
         pkgs.uv
         pkgs.sqlite
         pkgs.duckdb
+        pkgs.visidata
       ];
 
       home.sessionVariables = {

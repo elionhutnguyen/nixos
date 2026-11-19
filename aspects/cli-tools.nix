@@ -24,6 +24,7 @@ _: {
         nixfmt
         statix
         deadnix
+        nix-search-tv
 
         # Hardware & GPU diagnostics
         libva-utils

@@ -59,8 +59,13 @@ _: {
       };
 
     homeManager =
-      { config, ... }:
+      { config, pkgs, ... }:
       {
+        home.packages = with pkgs; [
+          grim
+          satty
+        ];
+
         xdg.configFile."niri".source =
           config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos/config/niri";
 

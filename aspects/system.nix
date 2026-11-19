@@ -37,6 +37,15 @@ _: {
             scanRandMacAddress = false;
           };
         };
+        firewall = {
+          allowedUDPPorts = [
+            53 # DNS for NetworkManager Wi-Fi hotspot (dnsmasq)
+            67 # DHCP for NetworkManager Wi-Fi hotspot (dnsmasq)
+          ];
+          allowedTCPPorts = [
+            53 # TCP DNS fallback for hotspot clients
+          ];
+        };
       };
 
       hardware.bluetooth = {
@@ -79,7 +88,7 @@ _: {
           settings.Resolve = {
             FallbackDNS = [
               "1.1.1.1"
-              "8.8.8.8"
+              "9.9.9.9"
             ];
             DNSOverTLS = "opportunistic";
           };

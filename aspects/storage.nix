@@ -10,6 +10,11 @@ _: {
           gvfs.enable = true;
         };
 
+        programs.localsend = {
+          enable = true;
+          openFirewall = true;
+        };
+
         systemd.tmpfiles.rules = lib.mkIf (config.fileSystems ? "/home/data") [
           "d /home/data 0775 root users -"
         ];

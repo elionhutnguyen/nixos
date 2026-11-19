@@ -18,6 +18,7 @@ in
       vcs
       cli-tools
       python
+      research
       antigravity
       firefox
       gui-apps

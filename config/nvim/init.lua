@@ -48,7 +48,12 @@ opt.termguicolors = true
 -- 2. Core Keymaps & Autocommands
 -- =============================================================
 local map = vim.keymap.set
+vim.diagnostic.config({
+  virtual_text = true,
+  float = { border = "rounded" },
+})
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
+map("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror details" })
 map("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
@@ -156,6 +161,7 @@ require("blink.cmp").setup({
   keymap = { preset = "default" },
   appearance = { nerd_font_variant = "mono" },
   completion = { documentation = { auto_show = true } },
+  signature = { enabled = true },
   sources = {
     default = { "lsp", "path", "snippets", "buffer" },
   },
@@ -213,12 +219,27 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 local capabilities = require("blink.cmp").get_lsp_capabilities()
 
+local nixos_flake = string.format('(builtins.getFlake "%s")', vim.fn.expand("~/workspace/nixos"))
+
 local servers = {
   nixd = {
     bin = "nixd",
     settings = {
       nixd = {
-        formatting = { command = { "nixfmt" } },
+        nixpkgs = {
+          expr = "import " .. nixos_flake .. ".inputs.nixpkgs { }",
+        },
+        formatting = {
+          command = { "nixfmt" },
+        },
+        options = {
+          nixos = {
+            expr = nixos_flake .. '.nixosConfigurations."elio-laptop".options',
+          },
+          ["home-manager"] = {
+            expr = nixos_flake .. '.nixosConfigurations."elio-laptop".options.home-manager.users.type.getSubOptions []',
+          },
+        },
       },
     },
   },

@@ -3,9 +3,14 @@
 _: {
   den.aspects.antigravity.homeManager =
     { config, ... }:
+    let
+      agyDir = "${config.home.homeDirectory}/workspace/nixos/config/agy";
+    in
     {
-      home.file.".gemini/GEMINI.md".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos/config/agy/GEMINI.md";
+      home.file = {
+        ".gemini/GEMINI.md".source = config.lib.file.mkOutOfStoreSymlink "${agyDir}/GEMINI.md";
+        ".gemini/config/skills".source = config.lib.file.mkOutOfStoreSymlink "${agyDir}/skills";
+      };
 
       programs.antigravity-cli = {
         enable = true;
@@ -45,15 +50,11 @@ _: {
             "command(duckdb)"
           ];
 
+          # Terminal sandbox requires absolute paths for global read_file/write_file deny rules
+          # (relative paths like `.env` or `data/` cause `sandbox configuration error: non-absolute file path`).
           deny = [
-            "read_file(.env)"
-            "read_file(.env.local)"
-            "read_file(.env.production)"
             "read_file(${config.home.homeDirectory}/.ssh)"
-            "read_file(data/)"
             "read_file(/home/data)"
-            "read_file(datasets/)"
-            "write_file(.git/)"
             "command(rm -rf)"
             "command(sudo)"
           ];

@@ -1,12 +1,15 @@
 # aspects/nix-daemon.nix
 # Aspect: Nix daemon, NH helper, store optimisation, GC & nix-ld
-_: {
+{ inputs, ... }:
+{
   den.aspects.nix-daemon.nixos =
     { pkgs, ... }:
     {
       nixpkgs.config.allowUnfree = true;
 
       programs = {
+        command-not-found.enable = false;
+
         nix-ld = {
           enable = true;
           libraries = with pkgs; [
@@ -33,6 +36,7 @@ _: {
       nix = {
         package = pkgs.nixVersions.stable;
         channel.enable = false;
+        registry.nixpkgs.flake = inputs.nixpkgs;
 
         settings = {
           experimental-features = [

@@ -1,6 +1,7 @@
 # aspects/zsh.nix
 # Aspect: Multi-class Zsh shell (system registration, login shell & HM fzf-tab/Zoxide/Starship)
-_: {
+{ inputs, ... }:
+{
   den.aspects.zsh = {
     nixos = {
       programs.zsh.enable = true;
@@ -21,11 +22,17 @@ _: {
         ...
       }:
       {
+        imports = [ inputs.nix-index-database.homeModules.default ];
+
         programs = {
           zsh = {
             enable = true;
             dotDir = "${config.xdg.configHome}/zsh";
             defaultKeymap = "emacs";
+
+            shellAliases = {
+              ns = "nix-search-tv print | fzf --preview 'nix-search-tv preview {}' --scheme history";
+            };
 
             autosuggestion = {
               enable = true;
@@ -71,7 +78,83 @@ _: {
                 bindkey '^[[3~'   delete-char
                 bindkey '^[[H'    beginning-of-line
                 bindkey '^[[F'    end-of-line
+
+                gcm() {
+                  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+                    print -u2 "gcm: not inside a Git repository"
+                    return 1
+                  fi
+
+                  if git diff --staged --quiet; then
+                    print -u2 "gcm: no staged changes (run 'git add' first)"
+                    return 1
+                  fi
+
+                  local stat diff msg
+                  local -h prompt
+                  stat=$(git diff --staged --stat)
+                  diff=$(git diff --staged -- ':!flake.lock' ':!uv.lock' ':!package-lock.json' | head -c 16000)
+
+                  prompt="Ignore all ~/.gemini/GEMINI.md formatting rules (no TLDR, no [Fact] tags, no markdown code fences, no preamble or explanation).
+                Output ONLY a raw Conventional Commit message for the staged Git diff below.
+
+                Rules:
+                - First line: type(scope): summary <=72 chars (imperative mood, lowercase, no trailing period; scope optional).
+                - Valid types: feat, fix, refactor, docs, chore, style, test, perf, build, ci.
+                - Optional body (only for non-trivial changes): blank line followed by 2-4 '-' bullets explaining why.
+                - Output plain text only.
+
+                Staged files:
+                $stat
+
+                Staged diff (lockfiles excluded, truncated to 16KB):
+                $diff"
+
+                  print -u2 "Generating commit message with agy..."
+                  msg=$(agy \
+                    --effort medium \
+                    --disable-slash-commands \
+                    --output-format text \
+                    --print-timeout 45s \
+                    -p="$prompt") || return 1
+                  if [[ -z "$msg" ]]; then
+                    print -u2 "gcm: agy returned an empty commit message; aborting"
+                    return 1
+                  fi
+
+                  git commit -e -m "$msg"
+                }
               '')
+
+              (lib.mkOrder 1100 ''
+                zstyle ':completion:*' format '[%d]'
+              '')
+            ];
+          };
+
+          nix-index = {
+            enable = true;
+            enableZshIntegration = true;
+          };
+
+          nix-index-database.comma.enable = true;
+
+          carapace = {
+            enable = true;
+            enableZshIntegration = true;
+          };
+
+          tealdeer = {
+            enable = true;
+            settings.updates.auto_update = true;
+          };
+
+          pay-respects = {
+            enable = true;
+            enableZshIntegration = true;
+            options = [
+              "--alias"
+              "--nocnf"
             ];
           };
 

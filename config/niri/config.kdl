@@ -9,7 +9,7 @@ input {
         xkb {
             layout "us"
         }
-        repeat-delay 250
+        repeat-delay 300
         repeat-rate 40
         numlock
     }
@@ -209,8 +209,8 @@ binds {
 
     Mod+W { toggle-column-tabbed-display; }
 
-    // Screenshot to Clipboard Only
-    Mod+Shift+S hotkey-overlay-title="Screenshot to Clipboard" { screenshot; }
+    // Screenshot & Annotate (Satty: c=crop, u=blur/redact, Ctrl+C=copy & exit, Esc=cancel)
+    Mod+Shift+S repeat=false hotkey-overlay-title="Screenshot & Annotate (Satty)" { spawn-sh "grim -o \"$(niri msg --json focused-output | jq -r .name)\" -t ppm - | satty -f - --fullscreen --early-exit --copy-command wl-copy"; }
 
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
