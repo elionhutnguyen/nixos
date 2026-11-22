@@ -110,7 +110,6 @@ require("which-key").setup({
     { "<leader>s", group = "[S]earch" },
     { "<leader>c", group = "[C]ode" },
     { "<leader>m", group = "[M]arkdown" },
-    { "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
   },
 })
 

@@ -54,7 +54,7 @@ _: {
         settings = {
           General = {
             FastConnectable = true;
-            JustWorksRepairing = "always";
+            JustWorksRepairing = "confirm";
           };
         };
         input = {
